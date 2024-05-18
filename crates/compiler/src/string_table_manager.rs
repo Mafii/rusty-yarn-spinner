@@ -6,7 +6,7 @@ use std::ops::{Deref, DerefMut};
 use yarnspinner_core::prelude::*;
 
 #[derive(Debug, Clone, Default)]
-pub(crate) struct StringTableManager(pub HashMap<LineId, StringInfo>);
+pub struct StringTableManager(pub HashMap<LineId, StringInfo>);
 
 impl StringTableManager {
     pub(crate) fn contains_implicit_string_tags(&self) -> bool {

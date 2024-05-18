@@ -2,7 +2,7 @@ use crate::prelude::*;
 use crate::visitors::{LastLineBeforeOptionsVisitor, StringTableGeneratorVisitor};
 use antlr_rust::tree::ParseTreeVisitorCompat;
 
-pub(crate) fn register_strings(mut state: CompilationIntermediate) -> CompilationIntermediate {
+pub fn register_strings(mut state: CompilationIntermediate) -> CompilationIntermediate {
     // First pass: parse all files, generate their syntax trees,
     // and figure out what variables they've declared
     for file in &state.parsed_files {

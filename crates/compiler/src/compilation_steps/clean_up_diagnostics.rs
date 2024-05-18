@@ -2,7 +2,7 @@ use crate::listeners::DiagnosticVec;
 use crate::prelude::*;
 use std::collections::HashSet;
 
-pub(crate) fn clean_up_diagnostics(mut state: CompilationIntermediate) -> CompilationIntermediate {
+pub fn clean_up_diagnostics(mut state: CompilationIntermediate) -> CompilationIntermediate {
     let total_diagnostics = if let Some(Ok(compilation)) = state.result.as_ref() {
         compilation
             .warnings

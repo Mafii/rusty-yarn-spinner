@@ -1,6 +1,6 @@
 use crate::prelude::*;
 
-pub(crate) fn break_on_job_with_only_strings(
+pub fn break_on_job_with_only_strings(
     mut state: CompilationIntermediate,
 ) -> CompilationIntermediate {
     if state.job.compilation_type == CompilationType::StringsOnly {
@@ -15,7 +15,7 @@ pub(crate) fn break_on_job_with_only_strings(
     state
 }
 
-pub(crate) fn break_on_job_with_only_declarations(
+pub fn break_on_job_with_only_declarations(
     mut state: CompilationIntermediate,
 ) -> CompilationIntermediate {
     if state.job.compilation_type == CompilationType::DeclarationsOnly {

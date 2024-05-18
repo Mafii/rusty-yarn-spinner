@@ -13,7 +13,7 @@ mod register_strings;
 mod resolve_deferred_type_diagnostic;
 mod validate_unique_node_names;
 
-pub(crate) use self::{
+pub use self::{
     add_initial_value_registrations::*, add_tracking_declarations::*, check_types::*,
     clean_up_diagnostics::*, create_declarations_for_tracking_nodes::*, early_breaks::*,
     find_tracking_nodes::*, generate_code::*, get_declarations::*, parse_files::*,

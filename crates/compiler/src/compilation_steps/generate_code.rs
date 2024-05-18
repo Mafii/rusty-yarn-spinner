@@ -5,7 +5,7 @@ use crate::visitors::KnownTypes;
 use crate::Result;
 use std::collections::{HashMap, HashSet};
 
-pub(crate) fn generate_code(mut state: CompilationIntermediate) -> CompilationIntermediate {
+pub fn generate_code(mut state: CompilationIntermediate) -> CompilationIntermediate {
     let has_errors = state.diagnostics.has_errors();
     let results: Vec<_> = if has_errors {
         // We have errors, so we can't safely generate code.

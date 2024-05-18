@@ -2,7 +2,7 @@ use crate::prelude::*;
 use yarnspinner_core::prelude::*;
 use yarnspinner_core::types::{Type, TypeFormat};
 
-pub(crate) fn add_initial_value_registrations(
+pub fn add_initial_value_registrations(
     mut state: CompilationIntermediate,
 ) -> CompilationIntermediate {
     // Last step: take every variable declaration we found in all

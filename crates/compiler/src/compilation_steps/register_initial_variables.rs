@@ -1,9 +1,7 @@
 use crate::prelude::*;
 use yarnspinner_core::prelude::*;
 
-pub(crate) fn register_initial_variables(
-    mut state: CompilationIntermediate,
-) -> CompilationIntermediate {
+pub fn register_initial_variables(mut state: CompilationIntermediate) -> CompilationIntermediate {
     let variables = &mut state.known_variable_declarations;
     let job_variable_declarations = state.job.variable_declarations.clone();
     variables.extend(job_variable_declarations);

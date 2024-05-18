@@ -2,9 +2,7 @@ use crate::prelude::*;
 use yarnspinner_core::prelude::*;
 use yarnspinner_core::types::Type;
 
-pub(crate) fn add_tracking_declarations(
-    mut state: CompilationIntermediate,
-) -> CompilationIntermediate {
+pub fn add_tracking_declarations(mut state: CompilationIntermediate) -> CompilationIntermediate {
     let tracking_declarations: Vec<_> = state
         .tracking_nodes
         .iter()

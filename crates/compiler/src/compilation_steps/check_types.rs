@@ -2,7 +2,7 @@ use crate::prelude::*;
 use crate::visitors::TypeCheckVisitor;
 use antlr_rust::tree::ParseTreeVisitorCompat;
 
-pub(crate) fn check_types(mut state: CompilationIntermediate) -> CompilationIntermediate {
+pub fn check_types(mut state: CompilationIntermediate) -> CompilationIntermediate {
     for file in &state.parsed_files {
         let mut visitor =
             TypeCheckVisitor::new(state.known_variable_declarations.clone(), file.clone());

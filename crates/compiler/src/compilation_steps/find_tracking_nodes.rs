@@ -3,7 +3,7 @@ use crate::visitors::NodeTrackingVisitor;
 use antlr_rust::tree::ParseTreeVisitorCompat;
 use std::collections::HashSet;
 
-pub(crate) fn find_tracking_nodes(mut state: CompilationIntermediate) -> CompilationIntermediate {
+pub fn find_tracking_nodes(mut state: CompilationIntermediate) -> CompilationIntermediate {
     // determining the nodes we need to track visits on
     // this needs to be done before we finish up with declarations
     // so that any tracking variables are included in the compiled declarations

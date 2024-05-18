@@ -1,7 +1,7 @@
 //! Adapted from <https://github.com/YarnSpinnerTool/YarnSpinner/blob/da39c7195107d8211f21c263e4084f773b84eaff/YarnSpinner.Compiler/FileParseResult.cs>
 
 use crate::prelude::{generated::yarnspinnerparser::*, *};
-use std::rc::Rc;
+use std::{fmt::Formatter, rc::Rc};
 
 /// Contains the result of parsing a single file of source code.
 ///
@@ -9,7 +9,7 @@ use std::rc::Rc;
 /// it provides access to the parse tree, and the stream of tokens used to
 /// produce that parse tree.
 #[derive(Clone)]
-pub(crate) struct FileParseResult<'input> {
+pub struct FileParseResult<'input> {
     pub name: String,
 
     pub tree: Rc<DialogueContextAll<'input>>,
@@ -32,5 +32,14 @@ impl<'input> FileParseResult<'input> {
 
     pub(crate) fn tokens(&self) -> &ActualTokenStream<'input> {
         &self.parser.input
+    }
+}
+
+impl<'input> std::fmt::Debug for FileParseResult<'input> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("FileParseResult")
+            .field("name", &self.name)
+            .field("tree", &self.tree)
+            .finish()
     }
 }

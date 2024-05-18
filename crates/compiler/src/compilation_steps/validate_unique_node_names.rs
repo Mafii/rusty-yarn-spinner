@@ -3,9 +3,7 @@ use crate::prelude::*;
 use antlr_rust::token::Token;
 use std::collections::HashMap;
 
-pub(crate) fn validate_unique_node_names(
-    mut state: CompilationIntermediate,
-) -> CompilationIntermediate {
+pub fn validate_unique_node_names(mut state: CompilationIntermediate) -> CompilationIntermediate {
     // Ensure that all nodes names in this compilation are unique. Node
     // name uniqueness is important for several processes, so we do this
     // check here.

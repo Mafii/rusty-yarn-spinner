@@ -1,13 +1,13 @@
 //! Adapted from <https://github.com/YarnSpinnerTool/YarnSpinner/blob/da39c7195107d8211f21c263e4084f773b84eaff/YarnSpinner.Compiler/Compiler.cs>
 //! and <https://github.com/YarnSpinnerTool/YarnSpinner/blob/da39c7195107d8211f21c263e4084f773b84eaff/YarnSpinner.Compiler/CompilationJob.cs>
 
-use crate::prelude::*;
+use crate::{compilation_steps::*, prelude::*};
 use std::path::Path;
 use yarnspinner_core::prelude::*;
 
 mod add_tags_to_lines;
 pub(crate) mod antlr_rust_ext;
-pub(crate) mod run_compilation;
+pub mod run_compilation;
 pub(crate) mod utils;
 
 #[allow(missing_docs)]
@@ -99,7 +99,35 @@ impl Compiler {
 
     /// Compiles the Yarn files previously added into a [`Compilation`].
     pub fn compile(&self) -> Result<Compilation> {
-        run_compilation::compile(self)
+        run_compilation::compile(self, Self::default_compiler_steps())
+    }
+
+    /// Compiles the Yarn files previously added into a [`Compilation`] with custom compilation steps.
+    pub fn compile_with_custom_steps(
+        &self,
+        custom_steps: Vec<&CompilationStep>,
+    ) -> Result<Compilation> {
+        run_compilation::compile(self, custom_steps)
+    }
+
+    /// The default compilation steps that the compiler will use.
+    pub fn default_compiler_steps() -> Vec<&'static CompilationStep> {
+        vec![
+            &register_initial_variables,
+            &parse_files,
+            &register_strings,
+            &validate_unique_node_names,
+            &break_on_job_with_only_strings,
+            &get_declarations,
+            &check_types,
+            &find_tracking_nodes,
+            &create_declarations_for_tracking_nodes,
+            &add_tracking_declarations,
+            &resolve_deferred_type_diagnostic,
+            &break_on_job_with_only_declarations,
+            &generate_code,
+            &add_initial_value_registrations,
+        ]
     }
 }
 

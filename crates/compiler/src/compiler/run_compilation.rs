@@ -1,3 +1,5 @@
+//! The main entry point for running a compilation job.
+
 use crate::compilation_steps::*;
 use crate::output::*;
 use crate::prelude::*;
@@ -7,24 +9,7 @@ use crate::Result;
 use std::collections::{HashMap, HashSet};
 
 /// Compile Yarn code, as specified by a compilation job.
-pub(crate) fn compile(compiler: &Compiler) -> Result<Compilation> {
-    let compiler_steps: Vec<&CompilationStep> = vec![
-        &register_initial_variables,
-        &parse_files,
-        &register_strings,
-        &validate_unique_node_names,
-        &break_on_job_with_only_strings,
-        &get_declarations,
-        &check_types,
-        &find_tracking_nodes,
-        &create_declarations_for_tracking_nodes,
-        &add_tracking_declarations,
-        &resolve_deferred_type_diagnostic,
-        &break_on_job_with_only_declarations,
-        &generate_code,
-        &add_initial_value_registrations,
-    ];
-
+pub(crate) fn compile(compiler: &Compiler, steps: Vec<&CompilationStep>) -> Result<Compilation> {
     let chars: Vec<Vec<u32>> = compiler
         .files
         .iter()
@@ -41,7 +26,7 @@ pub(crate) fn compile(compiler: &Compiler) -> Result<Compilation> {
         .collect();
     let chars: Vec<_> = chars.iter().map(|c| c.as_slice()).collect();
     let initial = CompilationIntermediate::from_job(compiler, chars);
-    let intermediate = compiler_steps.into_iter().fold(initial, |state, step| {
+    let intermediate = steps.into_iter().fold(initial, |state, step| {
         if state.early_break {
             state
         } else {
@@ -55,24 +40,25 @@ pub(crate) fn compile(compiler: &Compiler) -> Result<Compilation> {
     result
 }
 
-type CompilationStep = dyn Fn(CompilationIntermediate) -> CompilationIntermediate;
+pub type CompilationStep = dyn Fn(CompilationIntermediate) -> CompilationIntermediate;
 
-pub(crate) struct CompilationIntermediate<'input> {
-    pub(crate) job: &'input Compiler,
-    pub(crate) file_chars: Vec<&'input [u32]>,
-    pub(crate) result: Option<Result<Compilation>>,
+#[derive(Debug)]
+pub struct CompilationIntermediate<'input> {
+    pub job: &'input Compiler,
+    pub file_chars: Vec<&'input [u32]>,
+    pub result: Option<Result<Compilation>>,
     /// All variable declarations that we've encountered, PLUS the ones we knew about before
-    pub(crate) known_variable_declarations: Vec<Declaration>,
+    pub known_variable_declarations: Vec<Declaration>,
     /// All variable declarations that we've encountered during this compilation job
-    pub(crate) derived_variable_declarations: Vec<Declaration>,
-    pub(crate) potential_issues: Vec<DeferredTypeDiagnostic>,
-    pub(crate) parsed_files: Vec<FileParseResult<'input>>,
-    pub(crate) tracking_nodes: HashSet<String>,
-    pub(crate) string_table: StringTableManager,
-    pub(crate) diagnostics: Vec<Diagnostic>,
-    pub(crate) file_tags: HashMap<String, Vec<String>>,
-    pub(crate) known_types: KnownTypes,
-    pub(crate) early_break: bool,
+    pub derived_variable_declarations: Vec<Declaration>,
+    pub potential_issues: Vec<DeferredTypeDiagnostic>,
+    pub parsed_files: Vec<FileParseResult<'input>>,
+    pub tracking_nodes: HashSet<String>,
+    pub string_table: StringTableManager,
+    pub diagnostics: Vec<Diagnostic>,
+    pub file_tags: HashMap<String, Vec<String>>,
+    pub known_types: KnownTypes,
+    pub early_break: bool,
 }
 
 impl<'input> CompilationIntermediate<'input> {

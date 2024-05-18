@@ -1,7 +1,7 @@
 use crate::prelude::*;
 use std::collections::HashSet;
 
-pub(crate) fn resolve_deferred_type_diagnostic(
+pub fn resolve_deferred_type_diagnostic(
     mut state: CompilationIntermediate,
 ) -> CompilationIntermediate {
     let known_declarations: HashSet<_> = state

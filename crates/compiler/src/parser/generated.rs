@@ -3,22 +3,22 @@
 #[cfg_attr(rustfmt, rustfmt_skip)]
 #[allow(warnings)]
 #[allow(clippy)]
-pub(crate) mod yarnspinnerlexer;
+pub mod yarnspinnerlexer;
 
 #[cfg_attr(rustfmt, rustfmt_skip)]
 #[allow(warnings)]
 #[allow(clippy)]
-pub(crate) mod yarnspinnerparser;
+pub mod yarnspinnerparser;
 
 #[cfg_attr(rustfmt, rustfmt_skip)]
 #[allow(warnings)]
 #[allow(clippy)]
-pub(crate) mod yarnspinnerparserlistener;
+pub mod yarnspinnerparserlistener;
 
 #[cfg_attr(rustfmt, rustfmt_skip)]
 #[allow(warnings)]
 #[allow(clippy)]
-pub(crate) mod yarnspinnerparservisitor;
+pub mod yarnspinnerparservisitor;
 
 #[cfg(test)]
 mod tests {
