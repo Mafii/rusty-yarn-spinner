@@ -10,10 +10,9 @@ pub(crate) fn ui_updating_plugin(app: &mut App) {
         Update,
         (
             hide_dialog,
-            show_dialog.run_if(on_event::<DialogueStartEvent>()),
-            present_line
-                .run_if(resource_exists::<Typewriter>.and_then(on_event::<PresentLineEvent>())),
-            present_options.run_if(on_event::<PresentOptionsEvent>()),
+            show_dialog.run_if(on_event::<DialogueStartEvent>),
+            present_line.run_if(resource_exists::<Typewriter>.and(on_event::<PresentLineEvent>)),
+            present_options.run_if(on_event::<PresentOptionsEvent>),
             continue_dialogue.run_if(resource_exists::<Typewriter>),
         )
             .chain()
@@ -56,7 +55,8 @@ fn present_line(
     mut line_events: EventReader<PresentLineEvent>,
     mut speaker_change_events: EventWriter<SpeakerChangeEvent>,
     mut typewriter: ResMut<Typewriter>,
-    mut name_node: Query<&mut Text, With<DialogueNameNode>>,
+    mut name_node: Query<Entity, With<DialogueNameNode>>,
+    mut text_writer: TextUiWriter,
 ) {
     for event in line_events.read() {
         let name = if let Some(name) = event.line.character_name() {
@@ -68,7 +68,7 @@ fn present_line(
         } else {
             String::new()
         };
-        name_node.single_mut().sections[0].value = name;
+        *text_writer.text(name_node.single_mut(), 0) = name;
         typewriter.set_line(&event.line);
     }
 }

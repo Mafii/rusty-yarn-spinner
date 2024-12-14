@@ -13,7 +13,7 @@ publish = false
 crossterm = "0.27"
 ratatui = "0.26"
 anyhow = "1.0"
-yarnspinner = { path = "../../crates/yarnspinner", version = "0.3.0" }
+yarnspinner = { path = "../../crates/yarnspinner", version = "0.4.0" }
 
 [[bin]]
 name = "access_variables"

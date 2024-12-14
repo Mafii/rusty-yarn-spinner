@@ -1,7 +1,7 @@
 use bevy::asset::load_internal_binary_asset;
+use bevy::image::{CompressedImageFormats, ImageSampler, ImageType};
 use bevy::prelude::*;
 use bevy::render::render_asset::RenderAssetUsages;
-use bevy::render::texture::{CompressedImageFormats, ImageSampler, ImageType};
 
 pub(crate) fn ui_assets_plugin(app: &mut App) {
     load_internal_binary_asset!(

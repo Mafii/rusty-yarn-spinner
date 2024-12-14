@@ -34,7 +34,7 @@ pub(crate) enum RotationPhase {
 pub(crate) fn rotate_sprite(
     mut rotators: Query<(
         &mut Transform,
-        &Handle<StandardMaterial>,
+        &MeshMaterial3d<StandardMaterial>,
         &mut RotationPhase,
     )>,
     mut materials: ResMut<Assets<StandardMaterial>>,
@@ -118,7 +118,12 @@ pub(crate) fn move_camera(
 pub(crate) struct Bang(pub(crate) EasedChange<(Vec3, f32)>);
 
 pub(crate) fn ease_bang(
-    mut bangs: Query<(Entity, &Bang, &mut Transform, &Handle<StandardMaterial>)>,
+    mut bangs: Query<(
+        Entity,
+        &Bang,
+        &mut Transform,
+        &MeshMaterial3d<StandardMaterial>,
+    )>,
     mut standard_materials: ResMut<Assets<StandardMaterial>>,
     camera: Query<&Transform, (With<MainCamera>, Without<Bang>)>,
     mut commands: Commands,

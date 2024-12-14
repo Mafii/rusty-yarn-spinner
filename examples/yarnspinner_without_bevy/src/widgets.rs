@@ -21,7 +21,7 @@ impl<'a> LineView<'a> {
     }
 }
 
-impl<'a> Widget for LineView<'a> {
+impl Widget for LineView<'_> {
     fn render(self, area: Rect, buf: &mut Buffer) {
         Paragraph::new(self.line.text_without_character_name().as_str())
             .style(self.style)

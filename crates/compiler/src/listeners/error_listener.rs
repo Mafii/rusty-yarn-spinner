@@ -143,5 +143,5 @@ impl<'input, T: Recognizer<'input>> ErrorListener<'input, T> for ParserErrorList
     }
 }
 
-impl<'input> ParseTreeListener<'input, YarnSpinnerParserContextType> for ParserErrorListener {}
-impl<'input> YarnSpinnerParserListener<'input> for ParserErrorListener {}
+impl ParseTreeListener<'_, YarnSpinnerParserContextType> for ParserErrorListener {}
+impl YarnSpinnerParserListener<'_> for ParserErrorListener {}

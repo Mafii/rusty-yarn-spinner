@@ -18,7 +18,7 @@ impl NodeTrackingVisitor {
     }
 }
 
-impl<'input> ParseTreeVisitorCompat<'input> for NodeTrackingVisitor {
+impl ParseTreeVisitorCompat<'_> for NodeTrackingVisitor {
     type Node = YarnSpinnerParserContextType;
     type Return = Option<String>;
 

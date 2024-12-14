@@ -13,7 +13,7 @@ pub struct InnerDialogue<'a>(pub(crate) &'a Dialogue);
 #[derive(Debug)]
 pub struct InnerDialogueMut<'a>(pub(crate) &'a mut Dialogue);
 
-impl<'a> InnerDialogue<'a> {
+impl InnerDialogue<'_> {
     /// Proxy for [`Dialogue::node_names`].
     pub fn node_names(&self) -> impl Iterator<Item = &str> {
         self.0.node_names().unwrap()
@@ -33,7 +33,7 @@ impl<'a> InnerDialogue<'a> {
     }
 }
 
-impl<'a> InnerDialogueMut<'a> {
+impl InnerDialogueMut<'_> {
     /// Proxy for [`Dialogue::node_names`].
     pub fn node_names(&self) -> impl Iterator<Item = &str> {
         self.0.node_names().unwrap()

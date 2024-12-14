@@ -1,5 +1,5 @@
 use crate::prelude::*;
-use bevy::asset::{io::Reader, AsyncReadExt};
+use bevy::asset::io::Reader;
 use bevy::prelude::*;
 
 use bevy::asset::{AssetLoader, LoadContext};
@@ -77,11 +77,11 @@ impl AssetLoader for YarnFileAssetLoader {
     type Asset = YarnFile;
     type Settings = ();
     type Error = anyhow::Error;
-    async fn load<'a>(
-        &'a self,
-        reader: &'a mut Reader<'_>,
-        _settings: &'a (),
-        load_context: &'a mut LoadContext<'_>,
+    async fn load(
+        &self,
+        reader: &mut dyn Reader,
+        _settings: &(),
+        load_context: &mut LoadContext<'_>,
     ) -> Result<Self::Asset, Self::Error> {
         let mut bytes = Vec::new();
         reader.read_to_end(&mut bytes).await?;

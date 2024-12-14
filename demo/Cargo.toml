@@ -11,7 +11,7 @@ description = "A demo for Bevy Yarn Spinner for Rust, the friendly tool for writ
 license = "MIT OR Apache-2.0"
 
 [dependencies]
-bevy = { version = "0.14.0" }
-bevy_yarnspinner = { path = "../crates/bevy_plugin", version = "0.3.0" }
-bevy_yarnspinner_example_dialogue_view = { path = "../crates/example_dialogue_view", version = "0.3.0" }
-bevy_sprite3d = "3"
+bevy = { version = "0.15.0" }
+bevy_yarnspinner = { path = "../crates/bevy_plugin", version = "0.4.0" }
+bevy_yarnspinner_example_dialogue_view = { path = "../crates/example_dialogue_view", version = "0.4.0" }
+bevy_sprite3d = "4"

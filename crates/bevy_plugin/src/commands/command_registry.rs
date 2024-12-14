@@ -271,6 +271,9 @@ mod tests {
         let element = &debug_string[element_start..element_end];
 
         // Not testing the part after because its stability is not guaranteed.
-        assert_eq!(element, "{\"test\": fn(bevy_ecs::system::In<(f32, f32)>)");
+        assert_eq!(
+            element,
+            "{\"test\": fn(bevy_ecs::system::input::In<(f32, f32)>)"
+        );
     }
 }

@@ -23,7 +23,7 @@ fn main() {
 }
 
 fn setup_camera(mut commands: Commands) {
-    commands.spawn(Camera2dBundle::default());
+    commands.spawn(Camera2d);
 }
 
 fn spawn_dialogue_runner(mut commands: Commands, project: Res<YarnProject>) {

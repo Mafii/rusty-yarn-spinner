@@ -1,6 +1,6 @@
 [package]
 name = "yarnspinner"
-version = "0.3.0"
+version = "0.4.0"
 edition = "2021"
 repository = "https://github.com/YarnSpinnerTool/YarnSpinner-Rust"
 homepage = "https://docs.yarnspinner.dev/"
@@ -27,9 +27,9 @@ bevy = [
 ]
 
 [dependencies]
-yarnspinner_core = { path = "../core", version = "0.3.0" }
-yarnspinner_compiler = { path = "../compiler", version = "0.3.0" }
-yarnspinner_runtime = { path = "../runtime", version = "0.3.0" }
+yarnspinner_core = { path = "../core", version = "0.4.0" }
+yarnspinner_compiler = { path = "../compiler", version = "0.4.0" }
+yarnspinner_runtime = { path = "../runtime", version = "0.4.0" }
 log = { version = "0.4", features = ["std"] }
 
 [dev-dependencies]

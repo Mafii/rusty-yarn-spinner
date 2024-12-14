@@ -1,6 +1,6 @@
 [package]
 name = "yarnspinner_runtime"
-version = "0.3.0"
+version = "0.4.0"
 edition = "2021"
 repository = "https://github.com/YarnSpinnerTool/YarnSpinner-Rust"
 homepage = "https://docs.yarnspinner.dev/"
@@ -20,7 +20,7 @@ serde = [
 bevy = ["dep:bevy", "yarnspinner_core/bevy"]
 
 [dependencies]
-yarnspinner_core = { path = "../core", version = "0.3.0" }
+yarnspinner_core = { path = "../core", version = "0.4.0" }
 unicode-normalization = "0.1"
 unicode-segmentation = "1"
 log = "0.4"
@@ -30,4 +30,4 @@ fixed_decimal = { version = "0.5", features = ["ryu", "std"] }
 once_cell = "1"
 regex = "1"
 serde = { version = "1", features = ["derive"], optional = true }
-bevy = { version = "0.14.0", default-features = false, optional = true }
+bevy = { version = "0.15.0", default-features = false, optional = true }

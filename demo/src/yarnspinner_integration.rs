@@ -9,7 +9,7 @@ use bevy::app::AppExit;
 use bevy::pbr::NotShadowCaster;
 use bevy::prelude::*;
 use bevy::utils::Instant;
-use bevy_sprite3d::{Sprite3d, Sprite3dParams};
+use bevy_sprite3d::{Sprite3dBuilder, Sprite3dParams};
 use bevy_yarnspinner_example_dialogue_view::prelude::*;
 use std::f32::consts::PI;
 use std::sync::atomic::AtomicBool;
@@ -167,17 +167,16 @@ pub(crate) fn show_bang(
         duration / 3.0,
     );
     commands.spawn((
-        Sprite3d {
+        Sprite3dBuilder {
             image: sprites.bang.clone(),
             pixels_per_metre: 900.,
             alpha_mode: AlphaMode::Blend,
             unlit: true,
-
-            transform: Transform::from_translation(speaker.initial_translation + speaker_back)
-                .looking_at(CAMERA_TRANSLATION, Vec3::Y),
             ..default()
         }
         .bundle(&mut sprite_params),
+        Transform::from_translation(speaker.initial_translation + speaker_back)
+            .looking_at(CAMERA_TRANSLATION, Vec3::Y),
         NotShadowCaster,
         Bang(change),
     ));

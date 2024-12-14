@@ -36,7 +36,7 @@ pub(crate) fn command_wrapping_plugin(_app: &mut App) {}
 /// commands.add_command("add_player", add_player);
 ///
 /// fn add_player(_: In<()>, time: Res<Time>) {
-///    println!("Time since game start: {}", time.elapsed_seconds());
+///    println!("Time since game start: {}", time.elapsed_secs());
 /// }
 /// ```
 /// This command can be called from Yarn with `<<print_time>>`. Note how because we accept no parameters from Yarn, we use `In<()>` as the first parameter.

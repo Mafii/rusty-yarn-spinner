@@ -6,13 +6,13 @@ use crate::yarnspinner_integration::{
 use crate::{Sprites, CAMERA_TRANSLATION, CLIPPY_TRANSLATION, FERRIS_TRANSLATION};
 use bevy::color::palettes::css;
 #[cfg(not(target_arch = "wasm32"))]
-use bevy::core_pipeline::bloom::BloomSettings;
+use bevy::core_pipeline::bloom::Bloom;
 use bevy::core_pipeline::tonemapping::Tonemapping;
 use bevy::gltf::Gltf;
 use bevy::pbr::CascadeShadowConfigBuilder;
 use bevy::prelude::*;
 use bevy::render::camera::Exposure;
-use bevy_sprite3d::{Sprite3d, Sprite3dParams};
+use bevy_sprite3d::{Sprite3dBuilder, Sprite3dParams};
 use bevy_yarnspinner::prelude::*;
 
 pub(crate) fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
@@ -22,44 +22,39 @@ pub(crate) fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     #[cfg(target_arch = "wasm32")]
     commands.insert_resource(Msaa::Off);
     commands.spawn((
-        Camera3dBundle {
-            transform: Transform::from_translation(CAMERA_TRANSLATION)
-                .looking_at(FERRIS_TRANSLATION, Vec3::Y),
-            camera: Camera {
-                hdr: true,
-                ..default()
-            },
-            tonemapping: Tonemapping::TonyMcMapface,
-            exposure: Exposure::INDOOR,
+        Camera3d::default(),
+        Camera {
+            hdr: true,
             ..default()
         },
+        Tonemapping::TonyMcMapface,
+        Exposure::INDOOR,
+        Transform::from_translation(CAMERA_TRANSLATION).looking_at(FERRIS_TRANSLATION, Vec3::Y),
         #[cfg(not(target_arch = "wasm32"))]
-        BloomSettings {
+        Bloom {
             intensity: 0.07,
             ..default()
         },
         MainCamera,
     ));
-    commands.spawn(SceneBundle {
-        scene: asset_server.load("models/coffee_shop.glb#Scene0"),
-        ..default()
-    });
-    commands.spawn(DirectionalLightBundle {
-        directional_light: DirectionalLight {
+    commands.spawn(SceneRoot(
+        asset_server.load("models/coffee_shop.glb#Scene0"),
+    ));
+    commands.spawn((
+        DirectionalLight {
             color: css::BISQUE.into(),
             illuminance: light_consts::lux::OVERCAST_DAY,
             shadows_enabled: true,
             ..default()
         },
-        cascade_shadow_config: CascadeShadowConfigBuilder {
+        CascadeShadowConfigBuilder {
             first_cascade_far_bound: 4.0,
             maximum_distance: 20.0,
             ..default()
         }
-        .into(),
-        transform: Transform::from_xyz(-3.5, 2.3, 1.15).looking_at(FERRIS_TRANSLATION, Vec3::Y),
-        ..default()
-    });
+        .build(),
+        Transform::from_xyz(-3.5, 2.3, 1.15).looking_at(FERRIS_TRANSLATION, Vec3::Y),
+    ));
 
     for (x, y, z) in [
         (-1.0, 2.5, 0.75),
@@ -67,29 +62,25 @@ pub(crate) fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         (3.0, 2.5, 0.75),
         (3.0, 2.5, -1.6),
     ] {
-        commands.spawn(PointLightBundle {
-            point_light: PointLight {
+        commands.spawn((
+            PointLight {
                 color: Color::srgb(1.0, 0.78, 0.45),
                 intensity: 10_000.,
                 shadows_enabled: true,
                 ..default()
             },
-            transform: Transform::from_xyz(x, y, z),
-            ..default()
-        });
+            Transform::from_xyz(x, y, z),
+        ));
     }
 
     // Start game with a black background
     commands.spawn((
-        NodeBundle {
-            background_color: Color::BLACK.into(),
-            z_index: ZIndex::Global(-1),
-            style: Style {
-                width: Val::Percent(100.),
-                height: Val::Percent(100.),
-                position_type: PositionType::Absolute,
-                ..default()
-            },
+        BackgroundColor(Color::BLACK),
+        GlobalZIndex(-1),
+        Node {
+            width: Val::Percent(100.),
+            height: Val::Percent(100.),
+            position_type: PositionType::Absolute,
             ..default()
         },
         StageCurtains,
@@ -158,16 +149,15 @@ pub(crate) fn spawn_sprites(
         return;
     }
     commands.spawn((
-        Sprite3d {
+        Sprite3dBuilder {
             image: sprites.ferris_neutral.clone(),
             pixels_per_metre: 600.,
             alpha_mode: AlphaMode::Blend,
             unlit: true,
-            transform: Transform::from_translation(FERRIS_TRANSLATION)
-                .looking_at(CAMERA_TRANSLATION, Vec3::Y),
             ..default()
         }
         .bundle(&mut sprite_params),
+        Transform::from_translation(FERRIS_TRANSLATION).looking_at(CAMERA_TRANSLATION, Vec3::Y),
         Speaker {
             name: "Ferris".into(),
             initial_translation: FERRIS_TRANSLATION,
@@ -176,16 +166,15 @@ pub(crate) fn spawn_sprites(
         RotationPhase::default(),
     ));
     commands.spawn((
-        Sprite3d {
+        Sprite3dBuilder {
             image: sprites.clippy.clone(),
             pixels_per_metre: 350.,
             alpha_mode: AlphaMode::Blend,
             unlit: true,
-            transform: Transform::from_translation(CLIPPY_TRANSLATION)
-                .looking_at(CAMERA_TRANSLATION, Vec3::Y),
             ..default()
         }
         .bundle(&mut sprite_params),
+        Transform::from_translation(CLIPPY_TRANSLATION).looking_at(CAMERA_TRANSLATION, Vec3::Y),
         Speaker {
             name: "Clippy".into(),
             initial_translation: CLIPPY_TRANSLATION,

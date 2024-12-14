@@ -11,7 +11,7 @@ pub(crate) struct LastLineBeforeOptionsVisitor {
     _dummy: (),
 }
 
-impl<'input> ParseTreeVisitorCompat<'input> for LastLineBeforeOptionsVisitor {
+impl ParseTreeVisitorCompat<'_> for LastLineBeforeOptionsVisitor {
     type Node = YarnSpinnerParserContextType;
     type Return = ();
 

@@ -13,9 +13,9 @@ pub(crate) fn strings_file_updating_plugin(app: &mut App) {
                 .in_set(YarnSpinnerSystemSet)
                 .run_if(
                     in_development
-                        .and_then(has_localizations)
-                        .and_then(resource_exists::<YarnProject>)
-                        .and_then(events_in_queue::<UpdateAllStringsFilesForStringTableEvent>()),
+                        .and(has_localizations)
+                        .and(resource_exists::<YarnProject>)
+                        .and(events_in_queue::<UpdateAllStringsFilesForStringTableEvent>()),
                 ),)
                 .chain(),
         );

@@ -112,7 +112,7 @@ where
     phantom_data: PhantomData<T>,
 }
 
-impl<'res, T> YarnFnParam for ResRef<'res, T>
+impl<T> YarnFnParam for ResRef<'_, T>
 where
     T: TryFrom<YarnValue> + 'static,
     <T as TryFrom<YarnValue>>::Error: Display,
@@ -145,7 +145,7 @@ where
     phantom_data: PhantomData<T>,
 }
 
-impl<'res, T, U> YarnFnParam for ResRefBorrow<'res, T, U>
+impl<T, U> YarnFnParam for ResRefBorrow<'_, T, U>
 where
     T: TryFrom<YarnValue> + 'static,
     <T as TryFrom<YarnValue>>::Error: Display,

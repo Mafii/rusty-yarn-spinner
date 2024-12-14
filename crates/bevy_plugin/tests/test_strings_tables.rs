@@ -1,4 +1,3 @@
-use bevy::asset::LoadState;
 use bevy::prelude::*;
 use bevy_yarnspinner::prelude::*;
 use std::fs;
@@ -176,7 +175,7 @@ fn appends_to_pre_existing_strings_file() -> anyhow::Result<()> {
         .world()
         .resource::<AssetServer>()
         .get_load_state(&handle)
-        != Some(LoadState::Loaded)
+        .is_some_and(|state| state.is_loaded())
     {
         app.update();
     }

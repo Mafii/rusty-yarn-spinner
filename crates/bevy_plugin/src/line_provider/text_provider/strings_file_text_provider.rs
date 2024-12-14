@@ -2,7 +2,7 @@ use crate::fmt_utils::SkipDebug;
 use crate::prelude::*;
 use crate::UnderlyingTextProvider;
 
-use bevy::ecs::event::ManualEventReader;
+use bevy::ecs::event::EventCursor;
 use bevy::prelude::*;
 use std::any::Any;
 use std::collections::HashMap;
@@ -23,7 +23,7 @@ pub struct StringsFileTextProvider {
     base_string_table: HashMap<LineId, StringInfo>,
     strings_file_handle: Option<Handle<StringsFile>>,
     translation_string_table: Option<HashMap<LineId, String>>,
-    event_reader: Arc<RwLock<ManualEventReader<AssetEvent<StringsFile>>>>,
+    event_cursor: Arc<RwLock<EventCursor<AssetEvent<StringsFile>>>>,
 }
 
 impl UnderlyingTextProvider for StringsFileTextProvider {
@@ -115,7 +115,7 @@ impl StringsFileTextProvider {
             base_string_table: yarn_project.compilation.string_table.clone(),
             strings_file_handle: None,
             translation_string_table: None,
-            event_reader: Default::default(),
+            event_cursor: Default::default(),
         }
     }
     fn set_language_invalidating_translation(&mut self, language: impl Into<Option<Language>>) {
@@ -158,8 +158,8 @@ impl TextProvider for StringsFileTextProvider {
         }
         let asset_events = world.resource::<Events<AssetEvent<StringsFile>>>();
         let strings_file_has_changed = || {
-            let mut reader = self.event_reader.write().unwrap();
-            reader.read(asset_events).any(|event| match event {
+            let mut cursor = self.event_cursor.write().unwrap();
+            cursor.read(asset_events).any(|event| match event {
                 AssetEvent::Modified { id } => *id == handle.id(),
                 _ => false,
             })
